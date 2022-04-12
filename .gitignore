@@ -1,0 +1,6 @@
+.bin/
+.include/
+.lib/
+data.db
+identifier.sqlite
+pyvenv.cfg
