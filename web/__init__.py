@@ -1,22 +1,22 @@
 from flask import Flask
 from os import path
-import sqlite3
-from .people import Person
+from .models import Person
 
 
-def createApp():
+def create_app():
     app = Flask('HTTP Playground')
     app.debug = True
-    createDB()
+    create_db()
     return app
 
 
-def createDB():
+def create_db():
     db_uri = 'data.db'
     if not path.exists(db_uri):
-        from db import DBManager
+        from .DBManager import DBManager
         db = DBManager(db_uri)
         _ = db.connect()
+        _.close()
         db.create_tables({'Person': Person})
 
 

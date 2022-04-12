@@ -72,7 +72,7 @@ class DBManager:
         """
         if not str(id_).isdigit():
             return 401, 'id must be integer'
-        from web import Person
+        from web.models import Person
         connection = self.connect()
         cursor = connection.cursor()
         try:
