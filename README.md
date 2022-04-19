@@ -1,7 +1,7 @@
 # HTTP_playground
 API example showing HTTP verbs and status codes, along with SQLite helper class. Using Python with Flask.
 
-##Setup:
+## Setup:
 ```bash
 Unix:
 python3 -m venv <directory>
@@ -12,7 +12,7 @@ python3 app.py
 Install packages from requirements.txt. Run Flask application,
 start point app.py.
 
-##API Endpoints:
+## API Endpoints:
 **GET /get_all**
 \
 Retrieve all data
