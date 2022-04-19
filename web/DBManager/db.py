@@ -52,14 +52,14 @@ class DBManager:
         connection = self.connect()
         cursor = connection.cursor()
         if person.id == 0:
-            cursor.execute(f'''  INSERT INTO Person ('name', 'age', 'role')
-                                VALUES ('{person.name}', '{person.age}', '{person.role}') ''')
-            id_ = cursor.execute(f''' SELECT max(id) FROM Person ''').fetchone()
+            cursor.execute('''  INSERT INTO Person ('name', 'age', 'role')
+                                VALUES (?, ?, ?);''', (person.name, person.age, person.role))
+            id_ = cursor.execute(''' SELECT max(id) FROM Person ''').fetchone()
             print(id_)
             person.id = int(id_[0])
         else:
-            cursor.execute(f''' UPDATE Person SET name = '{person.name}', age = {person.age}, role = '{person.role}' 
-                                WHERE id = {person.id}    ''')
+            cursor.execute(''' UPDATE Person SET name = ?, age = ?, role = ? 
+                                WHERE id = ?    ''', (person.name, person.age, person.role, person.id))
         connection.commit()
         connection.close()
         return self.get_by_id(person.id)
@@ -76,10 +76,13 @@ class DBManager:
         connection = self.connect()
         cursor = connection.cursor()
         try:
-            entry = cursor.execute(f''' SELECT * FROM Person WHERE id = {id_}   ''').fetchone()
-            person = Person(id = entry[0], age = entry[1], name = entry[2], role = entry[3])
+            entry = cursor.execute(''' SELECT * FROM Person WHERE id = ?  ''', (id_,)).fetchone()
+            print(entry)
+            person = Person(id_=entry[0], age = entry[1], name = entry[2], role = entry[3])
         except sqlite3.Error:
-            person = Person('Error')
+            person = Person('SQL Error')
+        except TypeError:
+            person = Person('Type Error')
         connection.close()
         return person
 
@@ -102,9 +105,10 @@ class DBManager:
         """
         if not str(id_).isdigit():
             return 401, 'id must be integer'
+        id_ = int(id_)
         connection = self.connect()
         cursor = connection.cursor()
-        cursor.execute(f''' DELETE FROM Person WHERE id = {id_}   ''')
+        cursor.execute(''' DELETE FROM Person WHERE id = ?   ''', (id_,))
         connection.commit()
         connection.close()
 

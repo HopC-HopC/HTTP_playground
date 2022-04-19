@@ -6,11 +6,11 @@ class Person:
     age = int
     role = str
 
-    def __init__(self, name='undefined', age=0, role='unemployed', id=0):
+    def __init__(self, name='undefined', age=0, role='unemployed', id_=0):
         self.name = name
         self.age = age
         self.role = role
-        self.id = id
+        self.id = id_
 
     def update_age(self, age: int):
         """
