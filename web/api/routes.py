@@ -1,7 +1,5 @@
-import json
-
 from flask import Blueprint, render_template, url_for, make_response, jsonify, request, abort
-from flask.scaffold import HTTPException
+
 
 api = Blueprint('api', __name__)
 
